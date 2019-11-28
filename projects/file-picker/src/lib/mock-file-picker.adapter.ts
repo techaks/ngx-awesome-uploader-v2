@@ -1,8 +1,8 @@
-import { FilePreviewModel } from 'ngx-awesome-uploader';
+import { FilePreviewModel } from 'ngx-awesome-uploader-v2';
 import { HttpRequest, HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { FilePickerAdapter } from 'ngx-awesome-uploader';
+import { FilePickerAdapter } from 'ngx-awesome-uploader-v2';
 
 export class DemoFilePickerAdapter extends FilePickerAdapter {
   constructor(private http: HttpClient) {

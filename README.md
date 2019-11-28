@@ -3,13 +3,13 @@
 
 
 
-# NGX-AWESOME-UPLOADER
+# ngx-awesome-uploader-v2
 
 <p align="center">
 <img  src="https://i.gifer.com/MJQT.gif">
 <p>
 
-[![npm](https://img.shields.io/npm/l/ngx-awesome-uploader.svg)]() [![NPM Downloads](https://img.shields.io/npm/dt/ngx-awesome-uploader.svg)](https://www.npmjs.com/package/ngx-awesome-uploader) [![npm](https://img.shields.io/twitter/follow/vugar005.svg?label=Follow)](https://twitter.com/vugar005) [![npm](https://img.shields.io/github/issues/vugar005/ngx-awesome-uploader.svg)](https://github.com/vugar005/ngx-awesome-uploader) [![npm](https://img.shields.io/github/last-commit/vugar005/ngx-awesome-uploader.svg)](https://github.com/vugar005/ngx-awesome-uploader) ![npm](https://img.shields.io/readthedocs/ngx-awesome-uploader.svg)
+[![npm](https://img.shields.io/npm/l/ngx-awesome-uploader-v2.svg)]() [![NPM Downloads](https://img.shields.io/npm/dt/ngx-awesome-uploader-v2.svg)](https://www.npmjs.com/package/ngx-awesome-uploader-v2) [![npm](https://img.shields.io/twitter/follow/vugar005.svg?label=Follow)](https://twitter.com/vugar005) [![npm](https://img.shields.io/github/issues/vugar005/ngx-awesome-uploader-v2.svg)](https://github.com/vugar005/ngx-awesome-uploader-v2) [![npm](https://img.shields.io/github/last-commit/vugar005/ngx-awesome-uploader-v2.svg)](https://github.com/vugar005/ngx-awesome-uploader-v2) ![npm](https://img.shields.io/readthedocs/ngx-awesome-uploader-v2.svg)
 
 
 
@@ -29,16 +29,16 @@ Tested on Angular 6/7/8. Supports Server Side Rendering.
 * [Bonus](#bonus)
 
 ## Quick-links
-[Example Application](https://ngx-awesome-uploader.stackblitz.io/)
-[StackBlitzDemo](https://stackblitz.com/edit/ngx-awesome-uploader?file=src%2Fapp%2Fsimple-demo%2Fsimple-demo.component.ts)
+[Example Application](https://ngx-awesome-uploader-v2.stackblitz.io/)
+[StackBlitzDemo](https://stackblitz.com/edit/ngx-awesome-uploader-v2?file=src%2Fapp%2Fsimple-demo%2Fsimple-demo.component.ts)
 ## Install
 
-    npm install ngx-awesome-uploader --save
+    npm install ngx-awesome-uploader-v2 --save
 
 ##### Load the module for your app:
 
 ```typescript
-import { FilePickerModule } from  'ngx-awesome-uploader';
+import { FilePickerModule } from  'ngx-awesome-uploader-v2';
 @NgModule({
 imports:  [
 ...
@@ -52,7 +52,7 @@ In order to make library maximum compatible with apis you need to create and pro
 custom adapter </b> which implements upload and remove requests. That's because I have no idea how to get file id in upload response json :) .
 So this libray exposes a FilePickerAdapter abstract class which you can import on your new class file definition:
 
-``` import { FilePickerAdapter } from 'ngx-awesome-uploader';```
+``` import { FilePickerAdapter } from 'ngx-awesome-uploader-v2';```
 
   After importing it to your custom adapter implementation (EG: CustomAdapter.ts), you must implement those 2 methods which are abstract in the FilePickerAdapter base class which are:
 
@@ -64,7 +64,7 @@ public abstract removeFile(fileItem: FilePreviewModel): Observable<any>;
 
 >**Note:** Since uploadFile method will use http progress event, it has to return **id** of file (***in string type only***) in  case of HttpEventType.Response type, or progress (***in number type***) in case of HttpEventType.UploadProgress. You will receive this id on removeFile method when you click remove.
 
-You can check DEMO adapter [here](https://github.com/vugar005/ngx-awesome-uploader/tree/master/projects/file-picker/src/lib/mock-file-picker.adapter.ts)
+You can check DEMO adapter [here](https://github.com/vugar005/ngx-awesome-uploader-v2/tree/master/projects/file-picker/src/lib/mock-file-picker.adapter.ts)
 
 #### Now you can use it in your template
 
@@ -92,7 +92,7 @@ constructor(private  http: HttpClient) { }
 }
 ```
 >**Note:** As you see you should provide http instance to adapter.
-Still in Doubt? Check [Minimal Setup Demo](https://stackblitz.com/edit/ngx-awesome-uploader?file=src%2Fapp%2Fsimple-demo%2Fsimple-demo.component.ts)
+Still in Doubt? Check [Minimal Setup Demo](https://stackblitz.com/edit/ngx-awesome-uploader-v2?file=src%2Fapp%2Fsimple-demo%2Fsimple-demo.component.ts)
 
 ## api
 ```typescript
@@ -166,7 +166,7 @@ Emitted for every file */
 ## File-Validation
 ### Built-in-validations
 All validations are emitted through <b> ValidationError </b>event.
-To listen to validation errors (in case you provided validations), validationError event is emitted. validationError event implements interface [ValidationError](https://github.com/vugar005/ngx-awesome-uploader/blob/master/projects/file-picker/src/lib/validation-error.model.ts)
+To listen to validation errors (in case you provided validations), validationError event is emitted. validationError event implements interface [ValidationError](https://github.com/vugar005/ngx-awesome-uploader-v2/blob/master/projects/file-picker/src/lib/validation-error.model.ts)
 and which emits failed file and error type.
 Supported validations:
 
@@ -200,7 +200,7 @@ and pass to Template:
 </ngx-file-picker>
 ```
 
-Check [Demo](https://stackblitz.com/edit/ngx-awesome-uploader?file=src%2Fapp%2Fadvanced-demo%2Fadvanced-demo.component.html)
+Check [Demo](https://stackblitz.com/edit/ngx-awesome-uploader-v2?file=src%2Fapp%2Fadvanced-demo%2Fadvanced-demo.component.html)
 
 
 
@@ -235,7 +235,7 @@ I) To provide custom template for drag and drop zone, use content projection. Ex
 
 >**Note:**  The wrapper of your custom template must have a class **dropzoneTemplate**.
 
-[Checkout Demo](https://stackblitz.com/edit/ngx-awesome-uploader?file=src%2Fapp%2Fadvanced-demo%2Fadvanced-demo.component.html)
+[Checkout Demo](https://stackblitz.com/edit/ngx-awesome-uploader-v2?file=src%2Fapp%2Fadvanced-demo%2Fadvanced-demo.component.html)
 
 II) To use custom file preview template, pass your custom template as below:
 
@@ -253,11 +253,11 @@ II) To use custom file preview template, pass your custom template as below:
 	<button  (click)="uploader.removeFile(fileItem)">Remove</button>
 </ng-template>
 ```
-In custom template <b>uploadProgress</b> and <b>fileItem</b> (which implements [FilePrevieModel](https://github.com/vugar005/ngx-awesome-uploader/blob/master/projects/file-picker/src/lib/file-preview.model.ts) interface) are exposed .
+In custom template <b>uploadProgress</b> and <b>fileItem</b> (which implements [FilePrevieModel](https://github.com/vugar005/ngx-awesome-uploader-v2/blob/master/projects/file-picker/src/lib/file-preview.model.ts) interface) are exposed .
 ## Multi Language
-You can add multi language support for library by providing ***captions*** object (which implements [UploaderCaptions](https://github.com/vugar005/ngx-awesome-uploader/blob/master/projects/file-picker/src/lib/uploader-captions.ts) interface).
+You can add multi language support for library by providing ***captions*** object (which implements [UploaderCaptions](https://github.com/vugar005/ngx-awesome-uploader-v2/blob/master/projects/file-picker/src/lib/uploader-captions.ts) interface).
 
-Check [Demo](https://stackblitz.com/edit/ngx-awesome-uploader?file=src%2Fapp%2Fadvanced-demo%2Fadvanced-demo.component.html)
+Check [Demo](https://stackblitz.com/edit/ngx-awesome-uploader-v2?file=src%2Fapp%2Fadvanced-demo%2Fadvanced-demo.component.html)
 
 ## Bonus
 You can also check out library [router animations ](https://www.npmjs.com/package/ngx-router-animations)

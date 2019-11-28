@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'ngx-awesome-uploader';
+  title = 'ngx-awesome-uploader-v2';
 }
