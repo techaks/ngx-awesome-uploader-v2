@@ -19,12 +19,11 @@
     "angular file upload"
   ],
   "license": "MIT",
-  "repository": "https://github.com/vugar005/ngx-awesome-uploader-v2",
+  "repository": "https://github.com/techaks/ngx-awesome-uploader-v2",
   "author": {
-    "name" : "Vugar Abdullayev",
-    "url": "https://twitter.com/vugar005",
-    "email": "https://twitter.com/vugar005"
+    "name": "Vugar Abdullayev",
+    "url": "https://twitter.com/techaks",
+    "email": "https://twitter.com/techaks"
   },
   "homepage": "https://ngx-awesome-uploader-v2.stackblitz.io/"
-
 }
