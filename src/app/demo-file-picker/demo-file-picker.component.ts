@@ -1,8 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { UploaderCaptions } from "projects/file-picker-v2/src/public_api";
-import { Observable, of } from "rxjs";
-import { delay, map } from "rxjs/operators";
 import { FilePickerComponent } from "../../../projects/file-picker-v2/src/lib/file-picker.component";
 import { FilePreviewModel } from "../../../projects/file-picker-v2/src/lib/file-preview.model";
 import { ValidationError } from "../../../projects/file-picker-v2/src/lib/validation-error.model";
@@ -39,7 +37,7 @@ export class DemoFilePickerComponent implements OnInit {
     console.log(e);
   }
   onUploadSuccess(e: FilePreviewModel) {
-    // console.log(e);
+    console.log(e, "dsadasda");
     // console.log(this.myFiles)
   }
   onRemoveSuccess(e: FilePreviewModel) {
@@ -51,16 +49,16 @@ export class DemoFilePickerComponent implements OnInit {
   removeFile() {
     this.uploader.removeFileFromList(this.myFiles[0]);
   }
-  myCustomValidator(file: File): Observable<boolean> {
-    console.log(file.name.length);
-    if (!file.name.includes("uploader")) {
-      return of(true).pipe(delay(2000));
-    }
-    if (file.size > 50) {
-      return this.http
-        .get("https://vugar.free.beeceptor.com")
-        .pipe(map(res => res === "OK"));
-    }
-    return of(false).pipe(delay(2000));
-  }
+  // myCustomValidator(file: File): Observable<boolean> {
+  //   console.log(file.name.length);
+  //   if (!file.name.includes("uploader")) {
+  //     return of(true).pipe(delay(2000));
+  //   }
+  //   if (file.size > 50) {
+  //     return this.http
+  //       .get("https://vugar.free.beeceptor.com")
+  //       .pipe(map(res => res === "OK"));
+  //   }
+  //   return of(false).pipe(delay(2000));
+  // }
 }

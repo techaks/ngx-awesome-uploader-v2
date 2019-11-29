@@ -1,12 +1,25 @@
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  TemplateRef
+} from "@angular/core";
 import { SafeResourceUrl } from "@angular/platform-browser";
 import { combineLatest, Observable, of, Subject } from "rxjs";
 import { map, takeUntil, tap } from "rxjs/operators";
 import { DefaultCaptions } from "./default-captions";
-import { FileSystemDirectoryEntry, FileSystemFileEntry, UploadEvent } from "./file-drop";
+import {
+  FileSystemDirectoryEntry,
+  FileSystemFileEntry,
+  UploadEvent
+} from "./file-drop";
 import { FilePickerAdapter } from "./file-picker.adapter";
 import { FilePickerService } from "./file-picker.service";
-import { FilePreviewModel } from "./file-preview.model";
+import { FilePreviewModel, ImagePreviewModel } from "./file-preview.model";
 import { getFileType } from "./file-upload.utils";
 import { UploaderCaptions } from "./uploader-captions";
 import { FileValidationTypes, ValidationError } from "./validation-error.model";
@@ -81,11 +94,9 @@ declare var Cropper;
 
     <div class="files-preview-wrapper">
       <file-preview-container-v2
-        *ngIf="images.length>0"
+        *ngIf="images && images?.length > 0"
         [previewFiles]="images"
-        (removeFile)="removeFile($event)"
-        (uploadSuccess)="onUploadSuccess($event)"
-        [adapter]="adapter"
+        (removeFile)="removeImageFile($event)"
         [itemTemplate]="itemTemplate"
         [captions]="_captions"
       >
@@ -98,7 +109,9 @@ export class FilePickerComponent implements OnInit, OnDestroy {
   /** Emitted when file is uploaded via api successfully. Emitted for every file */
   @Output() uploadSuccess = new EventEmitter<FilePreviewModel>();
   /** Emitted when file is removed via api successfully. Emitted for every file */
-  @Output() removeSuccess = new EventEmitter<FilePreviewModel>();
+  @Output() removeSuccess = new EventEmitter<
+    FilePreviewModel | ImagePreviewModel
+  >();
   /** Emitted on file validation fail */
   @Output() validationError = new EventEmitter<ValidationError>();
   /** Emitted when file is added and passed validations. Not uploaded yet */
@@ -131,7 +144,7 @@ export class FilePickerComponent implements OnInit, OnDestroy {
   accept: string;
 
   @Input()
-  images: [] = [];
+  images: ImagePreviewModel[] = [];
 
   files: FilePreviewModel[] = [];
   /** File extensions filter */
@@ -359,11 +372,18 @@ export class FilePickerComponent implements OnInit, OnDestroy {
   }
   /** Removes files from files list */
   removeFileFromList(file: FilePreviewModel): void {
-    this.files = this.files.filter(f => f !== file);
+    this.files = this.files.filter(f => f.fileId !== file.fileId);
   }
+
+  /** Removes files from files list */
+  removeImageFromList(file: ImagePreviewModel): void {
+    this.images = this.images.filter(f => f !== file);
+  }
+
   /** Emits event when file upload api returns success  */
   onUploadSuccess(fileItem: FilePreviewModel): void {
     this.uploadSuccess.next(fileItem);
+    this.removeFileFromList(fileItem);
   }
   /** Validates file extension */
   isValidExtension(file: File, fileName: string): boolean {
@@ -435,14 +455,14 @@ export class FilePickerComponent implements OnInit, OnDestroy {
     });
   }
   removeFile(fileItem: FilePreviewModel): void {
-    if (this.adapter) {
-      this.adapter.removeFile(fileItem).subscribe(res => {
-        this.onRemoveSuccess(fileItem);
-      });
-    } else {
-      console.warn("no adapter was provided");
-    }
+    this.onRemoveSuccess(fileItem);
   }
+
+  removeImageFile(fileItem: ImagePreviewModel): void {
+    this.removeSuccess.next(fileItem);
+    this.removeImageFromList(fileItem);
+  }
+
   /** Emits event when file remove api returns success  */
   onRemoveSuccess(fileItem: FilePreviewModel): void {
     this.removeSuccess.next(fileItem);

@@ -6,5 +6,6 @@
 <file-preview-item-v2
   *ngFor="let file of previewFiles"
   [image]="file"
+  (removeFile)="removeFile.next($event)"
   (imageClicked)="openLightbox($event)"
 ></file-preview-item-v2>

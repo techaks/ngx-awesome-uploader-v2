@@ -65,9 +65,14 @@ export class FilePreviewItemComponent implements OnInit {
     this.icon = "error";
   }
   uploadFile(fileItem: FilePreviewModel): void {
+    let fileUrl = null;
     if (this.adapter) {
       this.uploadSubscription = this.adapter.uploadFile(fileItem).subscribe(
-        (res: number | string) => {
+        (res: number | string | any) => {
+          if (typeof res === "object") {
+            this.onUploadSuccess(res.id, fileItem, res.fileUrl);
+            this.uploadProgress = undefined;
+          }
           if (typeof res === "string") {
             this.onUploadSuccess(res, fileItem);
             this.uploadProgress = undefined;
@@ -87,10 +92,18 @@ export class FilePreviewItemComponent implements OnInit {
     }
   }
   /** Emits event when file upload api returns success  */
-  onUploadSuccess(id: string, fileItem: FilePreviewModel): void {
+  onUploadSuccess(
+    id: string,
+    fileItem: FilePreviewModel,
+    fileUrl: string = null
+  ): void {
     this.fileId = id;
     this.fileItem.fileId = id;
-    this.uploadSuccess.next({ ...fileItem, fileId: id });
+    this.uploadSuccess.next({
+      ...fileItem,
+      fileId: id,
+      fileUrl: fileUrl
+    });
   }
   handleProgressResponse(event: HttpEvent<any>, fileName) {
     switch (event.type) {

@@ -1,4 +1,9 @@
-import { HttpClient, HttpEvent, HttpEventType, HttpRequest } from "@angular/common/http";
+import {
+  HttpClient,
+  HttpEvent,
+  HttpEventType,
+  HttpRequest
+} from "@angular/common/http";
 import { FilePickerAdapter } from "projects/file-picker-v2/src/lib/file-picker.adapter";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
@@ -11,12 +16,12 @@ export class DemoFilePickerAdapter extends FilePickerAdapter {
   public uploadFile(fileItem: FilePreviewModel) {
     const form = new FormData();
     form.append("file", fileItem.file);
-    const api = "https://file-picker-demo.free.beeceptor.com";
+    const api = "http://localhost:3000/api/upload";
     const req = new HttpRequest("POST", api, form, { reportProgress: true });
     return this.http.request(req).pipe(
       map((res: HttpEvent<any>) => {
         if (res.type === HttpEventType.Response) {
-          return res.body.id.toString();
+          return res.body;
         } else if (res.type === HttpEventType.UploadProgress) {
           // Compute and show the % done:
           const UploadProgress = +Math.round((100 * res.loaded) / res.total);
@@ -25,6 +30,7 @@ export class DemoFilePickerAdapter extends FilePickerAdapter {
       })
     );
   }
+
   public removeFile(fileItem: FilePreviewModel): Observable<any> {
     console.log(fileItem.fileId);
     const removeApi = "https://file-remove-demo.free.beeceptor.com";

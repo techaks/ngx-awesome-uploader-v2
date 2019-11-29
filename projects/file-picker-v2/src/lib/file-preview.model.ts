@@ -2,6 +2,7 @@ export interface FilePreviewModel {
   fileId?: string;
   file: File | Blob;
   fileName: string;
+  fileUrl?: string;
 }
 
 export interface ImagePreviewModel {
