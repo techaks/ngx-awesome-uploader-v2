@@ -1,10 +1,13 @@
-<div style="position: fixed;width: 100vw;height: 80vh;display: flex;align-items: center;justify-content: center">
-  <ngx-file-picker #uploader
+<div
+  style="position: fixed;width: 100vw;height: 80vh;display: flex;align-items: center;justify-content: center"
+>
+  <ngx-file-picker
+    #uploader
     [totalMaxSize]="0.5"
     [fileMaxCount]="1"
     [fileMaxSize]="200"
     [uploadType]="'multi'"
-    (validationError)= "onValidationError($event)"
+    (validationError)="onValidationError($event)"
     [adapter]="adapter"
     [fileExtensions]="['pdf', 'jpg', 'png', 'PNG', 'mp4', 'css', 'docx', 'txt']"
     [enableCropper]="true"
@@ -16,18 +19,28 @@
     [accept]="'image/*'"
     [captions]="captions"
     (fileAdded)="onFileAdded($event)"
- >
-  <!-- <div class="dropzoneTemplate">
+    [images]="[
+      {
+        fileUrl:
+          'https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png',
+        fileName: 'akash'
+      }
+    ]"
+  >
+    <!-- <div class="dropzoneTemplate">
     <button>Custom</button>
   </div> -->
-</ngx-file-picker>
-<!-- <button (click)="removeFile()">Remove First File</button> -->
-
+  </ngx-file-picker>
+  <!-- <button (click)="removeFile()">Remove First File</button> -->
 </div>
 
-<ng-template #itemTemplate let-fileItem="fileItem" let-uploadProgress="uploadProgress">
-  <p>{{fileItem.file.size}}</p>
-  <p>{{fileItem.fileName}}</p>
-  <p>{{uploadProgress}}</p>
+<ng-template
+  #itemTemplate
+  let-fileItem="fileItem"
+  let-uploadProgress="uploadProgress"
+>
+  <p>{{ fileItem.file.size }}</p>
+  <p>{{ fileItem.fileName }}</p>
+  <p>{{ uploadProgress }}</p>
   <button (click)="uploader.removeFile(fileItem)">Remove</button>
 </ng-template>

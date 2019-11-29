@@ -1,22 +1,9 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  TemplateRef
-} from "@angular/core";
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef } from "@angular/core";
 import { SafeResourceUrl } from "@angular/platform-browser";
 import { combineLatest, Observable, of, Subject } from "rxjs";
 import { map, takeUntil, tap } from "rxjs/operators";
 import { DefaultCaptions } from "./default-captions";
-import {
-  FileSystemDirectoryEntry,
-  FileSystemFileEntry,
-  UploadEvent
-} from "./file-drop";
+import { FileSystemDirectoryEntry, FileSystemFileEntry, UploadEvent } from "./file-drop";
 import { FilePickerAdapter } from "./file-picker.adapter";
 import { FilePickerService } from "./file-picker.service";
 import { FilePreviewModel } from "./file-preview.model";
@@ -91,6 +78,19 @@ declare var Cropper;
       >
       </file-preview-container>
     </div>
+
+    <div class="files-preview-wrapper">
+      <file-preview-container-v2
+        *ngIf="images.length>0"
+        [previewFiles]="images"
+        (removeFile)="removeFile($event)"
+        (uploadSuccess)="onUploadSuccess($event)"
+        [adapter]="adapter"
+        [itemTemplate]="itemTemplate"
+        [captions]="_captions"
+      >
+      </file-preview-container-v2>
+    </div>
   `,
   styleUrls: ["./file-picker.component.scss"]
 })
@@ -131,6 +131,8 @@ export class FilePickerComponent implements OnInit, OnDestroy {
   accept: string;
 
   @Input()
+  images: [] = [];
+
   files: FilePreviewModel[] = [];
   /** File extensions filter */
   @Input() fileExtensions: String;

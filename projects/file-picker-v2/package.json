@@ -1,6 +1,6 @@
 {
   "name": "ngx-awesome-uploader-v2",
-  "version": "8.1.1",
+  "version": "8.1.2",
   "description": "Angular Library for uploading files with Real-Time Progress bar, File Preview, Drag && Drop and Custom Template with Multi Language support",
   "peerDependencies": {
     "@angular/common": "^6.0.0 || ^7.0.0 || ^8.0.0",
@@ -21,9 +21,9 @@
   "license": "MIT",
   "repository": "https://github.com/techaks/ngx-awesome-uploader-v2",
   "author": {
-    "name": "Vugar Abdullayev",
+    "name": "Akash Gupta",
     "url": "https://twitter.com/techaks",
-    "email": "https://twitter.com/techaks"
+    "email": "akash@adias.tech"
   },
   "homepage": "https://ngx-awesome-uploader-v2.stackblitz.io/"
 }

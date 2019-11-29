@@ -1,6 +1,6 @@
 {
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
-  "dest": "../../dist/file-picker",
+  "dest": "../../dist/file-picker-v2",
   "lib": {
     "entryFile": "src/public_api.ts",
     "target": "es6"

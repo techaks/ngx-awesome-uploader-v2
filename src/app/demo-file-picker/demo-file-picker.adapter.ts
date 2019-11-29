@@ -1,13 +1,8 @@
-import {
-  HttpClient,
-  HttpEvent,
-  HttpEventType,
-  HttpRequest
-} from "@angular/common/http";
-import { FilePickerAdapter } from "projects/file-picker/src/lib/file-picker.adapter";
+import { HttpClient, HttpEvent, HttpEventType, HttpRequest } from "@angular/common/http";
+import { FilePickerAdapter } from "projects/file-picker-v2/src/lib/file-picker.adapter";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { FilePreviewModel } from "../../../projects/file-picker/src/lib/file-preview.model";
+import { FilePreviewModel } from "../../../projects/file-picker-v2/src/lib/file-preview.model";
 
 export class DemoFilePickerAdapter extends FilePickerAdapter {
   constructor(private http: HttpClient) {

@@ -1,11 +1,11 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { UploaderCaptions } from "projects/file-picker/src/public_api";
+import { UploaderCaptions } from "projects/file-picker-v2/src/public_api";
 import { Observable, of } from "rxjs";
 import { delay, map } from "rxjs/operators";
-import { FilePickerComponent } from "../../../projects/file-picker/src/lib/file-picker.component";
-import { FilePreviewModel } from "../../../projects/file-picker/src/lib/file-preview.model";
-import { ValidationError } from "../../../projects/file-picker/src/lib/validation-error.model";
+import { FilePickerComponent } from "../../../projects/file-picker-v2/src/lib/file-picker.component";
+import { FilePreviewModel } from "../../../projects/file-picker-v2/src/lib/file-preview.model";
+import { ValidationError } from "../../../projects/file-picker-v2/src/lib/validation-error.model";
 import { DemoFilePickerAdapter } from "./demo-file-picker.adapter";
 
 @Component({
