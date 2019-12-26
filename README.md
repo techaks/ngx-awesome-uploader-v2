@@ -1,269 +1,220 @@
+![Banner](static/banner.jpg)
 
+# Angular 6+ compatible google autocomplete
 
+[![npm version](https://badge.fury.io/js/ngx-geoautocomplete-v2.svg)](https://badge.fury.io/js/ngx-geoautocomplete-v2)
 
+[![GitHub issues](https://img.shields.io/github/issues/techaks/ngx-geoautocomplete-v2)](https://github.com/techaks/ngx-geoautocomplete-v2/issues)
 
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/techaks/ngx-geoautocomplete-v2/master/LICENSE)
 
-# ngx-awesome-uploader-v2
+## Demo (original version ng4)
 
-<p align="center">
-<img  src="https://i.gifer.com/MJQT.gif">
-<p>
+https://ngx-geoautocomplete-v2.stackblitz.io
 
-[![npm](https://img.shields.io/npm/l/ngx-awesome-uploader-v2.svg)]() [![NPM Downloads](https://img.shields.io/npm/dt/ngx-awesome-uploader-v2.svg)](https://www.npmjs.com/package/ngx-awesome-uploader-v2) [![npm](https://img.shields.io/twitter/follow/vugar005.svg?label=Follow)](https://twitter.com/vugar005) [![npm](https://img.shields.io/github/issues/vugar005/ngx-awesome-uploader-v2.svg)](https://github.com/vugar005/ngx-awesome-uploader-v2) [![npm](https://img.shields.io/github/last-commit/vugar005/ngx-awesome-uploader-v2.svg)](https://github.com/vugar005/ngx-awesome-uploader-v2) ![npm](https://img.shields.io/readthedocs/ngx-awesome-uploader-v2.svg)
+## Test Case.
 
+In Pipeline will be updated in a while.
 
+## Table of contents
 
-This is an Angular Library for uploading files. It supports: File Upload and Preview (additionally preview images with lightbox), validation, image cropper , drag and drop with multi language support.
+- [About](#about)
 
-Tested on Angular 6/7/8. Supports Server Side Rendering.
+- [Installation](#installation)
 
-* [Install](#install)
-* [Usage](#usage)
-* [Configuration](#api)
-* [File Validation](#file-validation)
-		* [Built-in validations](#built-in-validations)
-		* [Custom validation](#custom-validation)
-* [Cropper](#cropper)
-* [Custom template](#custom-template)
-* [Multi Language](#multi-language)
-* [Bonus](#bonus)
+- [Documentation](#documentation)
 
-## Quick-links
-[Example Application](https://ngx-awesome-uploader-v2.stackblitz.io/)
-[StackBlitzDemo](https://stackblitz.com/edit/ngx-awesome-uploader-v2?file=src%2Fapp%2Fsimple-demo%2Fsimple-demo.component.ts)
-## Install
+- [Development](#development)
 
-    npm install ngx-awesome-uploader-v2 --save
+- [License](#license)
 
-##### Load the module for your app:
+## About
+
+angular 6+ compatible google autocomplete with server side api support and AOT enabled
+
+## Installation
+
+Install through npm:
+
+```
+
+npm install --save ngx-geoautocomplete-v2
+
+```
+
+Then include in your apps module:
 
 ```typescript
-import { FilePickerModule } from  'ngx-awesome-uploader-v2';
+import { Component, NgModule } from "@angular/core";
+
+import { NgxGeoautocompleteModule } from "ngx-geoautocomplete-v2";
+
 @NgModule({
-imports:  [
-...
-FilePickerModule
-]
+  imports: [NgxGeoautocompleteModule.forRoot()]
 })
-
-```
-## Usage
-In order to make library maximum compatible with apis you need to create and provide <b>
-custom adapter </b> which implements upload and remove requests. That's because I have no idea how to get file id in upload response json :) .
-So this libray exposes a FilePickerAdapter abstract class which you can import on your new class file definition:
-
-``` import { FilePickerAdapter } from 'ngx-awesome-uploader-v2';```
-
-  After importing it to your custom adapter implementation (EG: CustomAdapter.ts), you must implement those 2 methods which are abstract in the FilePickerAdapter base class which are:
-
-```
-public abstract uploadFile(fileItem: FilePreviewModel): Observable<number | string>;
-
-public abstract removeFile(fileItem: FilePreviewModel): Observable<any>;
+export class MyModule {}
 ```
 
->**Note:** Since uploadFile method will use http progress event, it has to return **id** of file (***in string type only***) in  case of HttpEventType.Response type, or progress (***in number type***) in case of HttpEventType.UploadProgress. You will receive this id on removeFile method when you click remove.
+Add google place script in your main file generally referred to 'index.html' (Optional if you want to use google services).
 
-You can check DEMO adapter [here](https://github.com/vugar005/ngx-awesome-uploader-v2/tree/master/projects/file-picker/src/lib/mock-file-picker.adapter.ts)
-
-#### Now you can use it in your template
-
-```html
-<ngx-file-picker
-[adapter]="adapter"
->
-</ngx-file-picker>
 ```
 
-#### and in the Component:
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=true&key=XXReplace this with valid keyXX&libraries=places&language=en-US"></script>
+
+```
+
+Finally use in one of your apps components:
 
 ```typescript
-import { HttpClient } from  '@angular/common/http';
-import { DemoFilePickerAdapter } from  './demo-file-picker.adapter';
-import { Component} from  '@angular/core';
+import { Component } from "@angular/core";
+
 @Component({
-selector: 'demo-file-picker',
-templateUrl: './demo-file-picker.component.html',
-styleUrls: ['./demo-file-picker.component.scss']
+  template:
+    '<ngx-geo-autocomplete [userSettings]="userSettings" (componentCallback)="autoCompleteCallback1($event)"></ngx-geo-autocomplete>'
 })
-export class DemoFilePickerComponent {
-adapter = new DemoFilePickerAdapter(this.http);
-constructor(private  http: HttpClient) { }
+export class MyComponent {
+  userSettings = {};
+
+  autoCompleteCallback1(selectedData: any) {
+    //do any necessery stuff.
+  }
 }
 ```
->**Note:** As you see you should provide http instance to adapter.
-Still in Doubt? Check [Minimal Setup Demo](https://stackblitz.com/edit/ngx-awesome-uploader-v2?file=src%2Fapp%2Fsimple-demo%2Fsimple-demo.component.ts)
 
-## api
-```typescript
-/** Whether to enable cropper. Default: disabled */
-@Input() enableCropper =  false;
-
-/** Whether to show default drag and drop template. Default:true */
-@Input() showeDragDropZone =  true;
-
-/** Single or multiple. Default: multi */
-@Input() uploadType =  'multi';
-
-/** Max size of selected file in MB. Default: no limit */
-@Input() fileMaxSize: number;
-
-/** Max count of file in multi-upload. Default: no limit */
-@Input() fileMaxCount: number;
-
-/** Total Max size limit of all files in MB. Default: no limit */
-@Input() totalMaxSize: number;
-
-/** Which file types to show on choose file dialog. Default: show all */
-@Input() accept: string;
-
-/** File extensions filter. Default: any exteion */
-@Input() fileExtensions: String;
-
-/** Cropper options if cropper enabled. Default:
-	dragMode: 'crop',
-	aspectRatio: 1,
-	autoCrop: true,
-	movable: true,
-	zoomable: true,
-	scalable: true,
-	autoCropArea: 0.8
-*/
-@Input() cropperOptions: Object;
-
-/** Custom Adapter for uploading/removing files. Required */
-@Input() adapter: FilePickerAdapter;
-
-/** Custom template for dropzone. Optional */
-@Input() dropzoneTemplate: TemplateRef<any>;
-
-/** Custom Preview Item template. Optional */
-@Input() itemTemplate: TemplateRef<any>;
-
-/** Whether to show default files preview container. Default: true */
-@Input() showPreviewContainer =  true;
-
-/** Custom validator function. Optional */
-@Input() customValidator: (file: File) => Observable<boolean>;
-  /** Custom captions input. Used for multi language support */
-@Input() captions: UploaderCaptions;
-```
-## Output events
+List of settings that can be used to configure the module (all config. are optional):
 
 ```typescript
-/** Emitted when file is uploaded via api successfully.
-Emitted for every file */
-@Output() uploadSuccess =  new  EventEmitter<FilePreviewModel>();
-/** Emitted when file is removed via api successfully.
-	Emitted for every file */
-@Output() removeSuccess =  new  EventEmitter<FilePreviewModel>();
-/** Emitted on file validation fail */
-@Output() validationError =  new  EventEmitter<ValidationError>();
-/** Emitted when file is added and passed validations. Not uploaded yet */
-@Output() fileAdded =  new  EventEmitter<FilePreviewModel>();
+
+{
+
+geoPredictionServerUrl?:  string; //should be a server url which returns list of places upon input query (GET request)
+
+geoLatLangServiceUrl?:  string; //should be a server url which returns place object upon lat and lon. (GET request)
+
+geoLocDetailServerUrl?:  string; //should be a server url which returns place details upon placeID received by 'geoPredictionServerUrl' (GET request)
+
+geoCountryRestriction?:  any; //should be an array of country code where search should be restricted like ['in', 'us', 'pr', 'vi', 'gu', 'mp'] *(Default: 'no restriction')*
+
+geoTypes?:  any; //should be an array of Place types defined by [Google api](https://developers.google.com/places/web-service/autocomplete#place_types).
+
+geoLocation?:  any; //should be an array in the format [latitude,longitude]. This feature will not work if country restriction is implimented.
+
+geoRadius?:  number; //should be a number and should only be used with 'geoLocation'.
+
+serverResponseListHierarchy?:  any; //should be an array of key from where 'geoPredictionServer' data should be extracted. (see Example.)
+
+serverResponseatLangHierarchy?:  any; //should be an array of key from where 'geoLatLangService' data should be extracted. (see Example.)
+
+serverResponseDetailHierarchy?:  any; //should be an array of key from where 'geoLocDetailSerice' data should be extracted. (see Example.)
+
+resOnSearchButtonClickOnly?:  boolean; //when output should be emmited when search button clicked only.
+
+useGoogleGeoApi?:  boolean; //should set to 'false' when server urls to be used instade of google api. *(Default: true)*
+
+inputPlaceholderText?:  string; //Input Placeholder text can be changed *(Default: 'Enter Area Name')*
+
+inputString?:  string; //Default selected input like prefefined address. *(Default: ''). See Example 3 in Demo after 10 sec*
+
+showSearchButton?:  boolean; //Search button to be visible or not. *(Default: true)*
+
+showRecentSearch?:  boolean; //Recent search to be saved & shown to user or not. *(Default: true)*
+
+showCurrentLocation?:  boolean; //current location option to be visible or not. *(Default: true)*
+
+recentStorageName?:  string; //Recent seraches are saved in browser localsorage. The key value which is used by the module to save can be changed. *(Default: 'recentSearches')*
+
+noOfRecentSearchSave?:  number; //Number of recent user entry to be saved . *(Default: 5)*
+
+currentLocIconUrl?:  string; //Current location icon can be changed *(Should be an image url or svg url)*
+
+searchIconUrl?:  string; //Search icon can be changed *(Should be an image url or svg url)*
+
+locationIconUrl?:  string; //Genetal Location icon can be changed *(Should be an image or svg url)*
+
+}
+
 ```
 
-## File-Validation
-### Built-in-validations
-All validations are emitted through <b> ValidationError </b>event.
-To listen to validation errors (in case you provided validations), validationError event is emitted. validationError event implements interface [ValidationError](https://github.com/vugar005/ngx-awesome-uploader-v2/blob/master/projects/file-picker/src/lib/validation-error.model.ts)
-and which emits failed file and error type.
-Supported validations:
+#### NOTE: Component settings can also be altered after component initialization. Please follow the below method to change.
 
-| **Validation Type**                | **Description**                                                                                                                                                                       | **Default** |
-|----------------------------|---------------------------------------------------------------------------------------|----------------------------------------|
-| fileMaxSize: number       | Max size of selected file in MB.   | No limit
-| fileExtensions: String        |  Emitted when file does not satisfy provided extension   | Any extension
-| uploadType: String      | Upload type. Values: 'single' and 'multi'.  |multi
-| totalMaxSize: number       | Total Max size of files in MB. If cropper is enabled, the cropped image size is considered.| No limit
-| fileMaxCount: number       | Limit total files to upload by count  | No limit
+```typescript
 
-### Custom-validation
-You can also provide your own custom validation along with built-in validations.
-You custom validation takes `file: File` and returns `Observable<boolean>`;
-So that means you can provide sync and async validations.
+this.userSettings: any  = {
 
-        myCustomValidator(file: File): Observable<boolean>  {
-	    	if (file.name.includes('panda')) {
-    		    return  of(true);
-    	      }
-		    if (file.size  >  50) {
-    			return  this.http.get('url').pipe(map((res) => res ===  'OK' ));
-		    }
-    	    return  of(false);
-        }
-and pass to Template:
-```html
-<ngx-file-picker
-[customValidator]="myCustomValidator"
->
-</ngx-file-picker>
+inputPlaceholderText: 'This is the placeholder text doring component initialization'
+
+}
+
+
+
+this.userSettings['inputPlaceholderText'] =  'This is the placeholder text after doing some external operation after some time';
+
+this.userSettings  =  Object.assign({},this.userSettings) //Very Important Line to add after modifying settings.
+
 ```
 
-Check [Demo](https://stackblitz.com/edit/ngx-awesome-uploader-v2?file=src%2Fapp%2Fadvanced-demo%2Fadvanced-demo.component.html)
+#### NOTE:
 
+'geoTypes' can be used for multiple Place Types like `['(regions)', '(cities)']` OR `['(regions)', 'establishment', 'geocode']`. This will make individual api call for each Place Types to google to fetch lists and then it will merge the resuts with uniqueness.To know avalable Place Types please refer [Google api](https://developers.google.com/places/web-service/autocomplete#place_types).USE THIS FEATURE CAREFULLY<br/><br/>
 
+### You may also find it useful to view the [demo source](<[https://github.com/techaks/ngx-geoautocomplete-v2](https://github.com/techaks/ngx-geoautocomplete-v2)>).
 
-## Cropper
+### You can change the component css in the below manner (You have to set encapsulation to None)
 
-Library uses cropperjs to crop images but you need import it to use it. Example: in index html
-
-```html
-<script  src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.4.3/cropper.min.js"  async>  </script>
-<link  rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.4.3/cropper.css"  />
 ```
 
->**Note**: To use cropper, you should set enableCropper to true. Look at API section above.
-You can also provide your custom cropper options.
+import { Component, ViewEncapsulation } from '@angular/core';
 
-## Custom-Template
 
-You can provide custom template to library.
 
-I) To provide custom template for drag and drop zone, use content projection. Example:
+@Component({
 
-```html
-<ngx-file-picker
-[adapter]="adapter">
+selector: 'any-component-name',
 
-	<div  class="dropzoneTemplate">
-		<button>Custom</button>
-	</div>
+encapsulation: ViewEncapsulation.None,
 
-</ngx-file-picker>
-````
+template: '<div class="demo"><ng4geo-autocomplete (componentCallback)="autoCompleteCallback1($event)"></ng4geo-autocomplete></div>',
 
->**Note:**  The wrapper of your custom template must have a class **dropzoneTemplate**.
+styles: ['
 
-[Checkout Demo](https://stackblitz.com/edit/ngx-awesome-uploader-v2?file=src%2Fapp%2Fadvanced-demo%2Fadvanced-demo.component.html)
+.demo #search_places {
 
-II) To use custom file preview template, pass your custom template as below:
+height: 100px;
 
-```html
-<ngx-file-picker  #uploader
-	[adapter]="adapter"
-	[itemTemplate]="itemTemplate"
->
-</ngx-file-picker>
+}
 
-<ng-template  #itemTemplate  let-fileItem="fileItem" let-uploadProgress="uploadProgress">
-	<p>{{fileItem.file.size}}</p>
-	<p>{{fileItem.fileName}}</p>
-	<p *ngIf="uploadProgress < 100">{{uploadProgress}}%</p>
-	<button  (click)="uploader.removeFile(fileItem)">Remove</button>
-</ng-template>
+']
+
+})
+
 ```
-In custom template <b>uploadProgress</b> and <b>fileItem</b> (which implements [FilePrevieModel](https://github.com/vugar005/ngx-awesome-uploader-v2/blob/master/projects/file-picker/src/lib/file-preview.model.ts) interface) are exposed .
-## Multi Language
-You can add multi language support for library by providing ***captions*** object (which implements [UploaderCaptions](https://github.com/vugar005/ngx-awesome-uploader-v2/blob/master/projects/file-picker/src/lib/uploader-captions.ts) interface).
 
-Check [Demo](https://stackblitz.com/edit/ngx-awesome-uploader-v2?file=src%2Fapp%2Fadvanced-demo%2Fadvanced-demo.component.html)
+## Development
 
-## Bonus
-You can also check out library [router animations ](https://www.npmjs.com/package/ngx-router-animations)
-## Contribution
+### Prepare your environment
 
-You can fork project from github. Pull requests are kindly accepted.
-1. Building library: ng build file-picker
-2. Running tests: ng test file-picker
-3. Run demo: ng serve
+- Install [Node.js](http://nodejs.org/) and NPM
+
+- Install local dev dependencies: `npm install` while current directory is this repo
+
+### Development server
+
+Run `npm start` to start a development server on port 8000 with auto reload + tests.
+
+### Testing
+
+Run `npm test` to run tests once or `npm run test:watch` to continually run tests.
+
+### Release
+
+- Bump the version in package.json (once the module hits 1.0 this will become automatic)
+
+```bash
+
+npm run release
+
+```
+
+## License
+
+MIT
